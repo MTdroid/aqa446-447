@@ -1,0 +1,11 @@
+[
+  {
+    "bookTitle": "String",
+    "author": {
+      "id": "Long",
+      "firstName": "String",
+      "secondName": "String",
+      "familyName": "String"
+    }
+  }
+]
