@@ -17,9 +17,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "authors_books")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AuthorGetAllBooksXMLResponse {
+
     @XmlElement(name = "book_title", required = true)
     @JsonProperty("bookTitle")
     private String bookTitle;
+
     @XmlElement(name = "author", required = true)
     @JsonProperty("author")
     private Author author;

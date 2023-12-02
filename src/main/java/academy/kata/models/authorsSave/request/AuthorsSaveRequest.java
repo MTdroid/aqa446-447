@@ -8,7 +8,9 @@ import lombok.Data;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthorsSaveRequest {
+
     private String firstName;
     private String familyName;
     private String secondName;
+    private String birthDate;
 }

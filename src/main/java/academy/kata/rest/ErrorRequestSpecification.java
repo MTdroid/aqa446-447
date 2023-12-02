@@ -9,9 +9,6 @@ import static academy.kata.rest.PositiveRequestSpecification.*;
 import static io.restassured.RestAssured.given;
 
 public class ErrorRequestSpecification {
-    public static ErrorResponse errorRespons(ErrorResponse response, String errorDetails, String errorCode, String errorMessage){
-        return response;
-    }
 
     public static ErrorResponse booksSaveResponseErr(String bookTitle, Long authorId, Integer code) {
         AuthorForBookSave author = new AuthorForBookSave(authorId);
@@ -28,7 +25,7 @@ public class ErrorRequestSpecification {
                 .extract().as(ErrorResponse.class);
     }
 
-    public static ErrorResponse authorGetAllBooksResponseErr(int authorId, Integer code) {
+    public static ErrorResponse authorGetAllBooksResponseErr(Integer authorId, Integer code) {
 
         return given()
                 .spec(requestSpecification())
@@ -40,7 +37,7 @@ public class ErrorRequestSpecification {
                 .extract().as(ErrorResponse.class);
     }
 
-    public static ErrorResponse authorGetAllBooksXMLResponseErr(int authorId, Integer code) {
+    public static ErrorResponse authorGetAllBooksXMLResponseErr(Integer authorId, Integer code) {
         AuthorGetAllBooksXMLRequest author = new AuthorGetAllBooksXMLRequest();
         author.setId(authorId);
 

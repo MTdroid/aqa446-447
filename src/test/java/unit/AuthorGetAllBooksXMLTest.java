@@ -1,3 +1,4 @@
+
 package unit;
 
 import academy.kata.entity.Author;
@@ -10,6 +11,8 @@ import academy.kata.rest.PositiveRequestSpecification;
 import academy.kata.steps.checkResponse.AuthorGetAllBooksXML;
 import academy.kata.steps.checkResponse.AuthorSave;
 import academy.kata.steps.checkResponse.BooksSave;
+import academy.kata.steps.checkResponse.ErrorResponseCheck;
+import academy.kata.utils.TestDataGenerator;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
@@ -21,17 +24,19 @@ import java.util.List;
 @Epic("API тесты")
 @Story("Получение всех книг автора XML")
 public class AuthorGetAllBooksXMLTest {
-    String firstName =TestDataGenerator.generateData();
+    String firstName = TestDataGenerator.generateData();
     String familyName=TestDataGenerator.generateData();
     String secondName=TestDataGenerator.generateData();
     String bookTitle= TestDataGenerator.generateData();
+    String date = TestDataGenerator.generateDate();
+    ErrorResponseCheck errorResponseCheck = new ErrorResponseCheck();
 
     @Test
     @DisplayName("Получение всех книг автора в формате XML с проверкой тела ответа")
     @Description("Позитивный тест. В консоль должны вывестись все книги автора")
     public void getAllBooksXMLTest() {
 
-        AuthorsSaveResponse author = PositiveRequestSpecification.authorsSaveResponse(firstName,familyName,secondName,201);
+        AuthorsSaveResponse author = PositiveRequestSpecification.authorsSaveResponse(firstName,familyName,secondName, date,201);
         AuthorSave.checkResponse(author);
 
         BooksSaveResponse booksSaveResponse = PositiveRequestSpecification.booksSaveResponse(bookTitle, author.getAuthorId(), 201);
@@ -46,9 +51,8 @@ public class AuthorGetAllBooksXMLTest {
         @DisplayName("Получение всех книг несуществующего автора")
         @Description("Негативный тест. В консоль должны вывестись errorCode,errorMessage")
         public void getAllBooksXmlInvalidID() {
-
             ErrorResponse errorResponse = ErrorRequestSpecification.authorGetAllBooksXMLResponseErr(909,409);
-            ErrorRequestSpecification.errorRespons(errorResponse,"","1004","Указанный автор не существует в таблице");
+            errorResponseCheck.checkResponse(errorResponse,"1004",null,"Указанный автор не существует в таблице");
         }
 }
 

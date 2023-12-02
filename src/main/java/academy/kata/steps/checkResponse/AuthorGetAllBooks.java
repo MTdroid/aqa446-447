@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AuthorGetAllBooks {
 
-    public static void checkResponseBody(List<AuthorGetAllBooksResponse> authorGetAllBooksResponses, String bookTitile,String firstName,String familyName,String secondName) {
+    public static void checkResponseBody(List<AuthorGetAllBooksResponse> authorGetAllBooksResponses, String bookTitile, String firstName, String familyName, String secondName) {
         assertThat(authorGetAllBooksResponses).isNotNull();
         assertEquals(authorGetAllBooksResponses.get(0).getBookTitle(), bookTitile);
         assertEquals(authorGetAllBooksResponses.get(0).getAuthor().getFirstName(), firstName);

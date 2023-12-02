@@ -9,6 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BooksSaveRequest {
+
     private String bookTitle;
     private AuthorForBookSave author;
 }

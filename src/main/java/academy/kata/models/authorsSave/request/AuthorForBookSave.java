@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="author")
 @AllArgsConstructor
 public class AuthorForBookSave {
+
   @XmlElement(name = "author_id", required=true)
   private Long id;
 }

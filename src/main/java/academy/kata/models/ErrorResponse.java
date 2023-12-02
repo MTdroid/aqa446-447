@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ErrorResponse {
+
     String errorCode;
     String errorMessage;
     String errorDetails;

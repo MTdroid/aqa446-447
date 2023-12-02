@@ -10,10 +10,7 @@ import academy.kata.models.booksSave.request.BooksSaveRequest;
 import academy.kata.models.booksSave.response.BooksSaveResponse;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
-import io.restassured.module.jsv.JsonSchemaValidator;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
@@ -24,14 +21,13 @@ import static org.hamcrest.Matchers.equalTo;
 
 
 public class PositiveRequestSpecification {
+
     public static RequestSpecification requestSpecification() {
 
         return new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
                 .setBaseUri("http://localhost:8080")
-                .addFilter(new RequestLoggingFilter())
-                .addFilter(new ResponseLoggingFilter())
-                .build();
+                .build().header("Authorization","Bearer " +setToken());
     }
 
     public static RequestSpecification requestSpecificationXML() {
@@ -39,9 +35,17 @@ public class PositiveRequestSpecification {
         return new RequestSpecBuilder()
                 .setContentType(ContentType.XML)
                 .setBaseUri("http://localhost:8080")
-                .addFilter(new RequestLoggingFilter())
-                .addFilter(new ResponseLoggingFilter())
-                .build();
+                .build().header("Authorization","Bearer " +setToken());
+    }
+
+    public static String setToken() {
+        JwtToken jwtToken = new JwtToken("master_log","qweasdzxc");
+        return given().contentType(ContentType.JSON)
+                .body(jwtToken)
+                .when()
+                .get(Endpoint.getJwtToken)
+                .then()
+                .extract().jsonPath().get("jwtToken");
     }
 
     public static ResponseSpecification statusCode(Integer code) {
@@ -50,8 +54,8 @@ public class PositiveRequestSpecification {
         return builder.build();
     }
 
-    public static AuthorsSaveResponse authorsSaveResponse(String firstName, String familyName, String secondName, Integer code) {
-        AuthorsSaveRequest author = new AuthorsSaveRequest(firstName, familyName, secondName);
+    public static AuthorsSaveResponse authorsSaveResponse(String firstName, String familyName, String secondName, String birthDate, Integer code) {
+        AuthorsSaveRequest author = new AuthorsSaveRequest(firstName, familyName, secondName, birthDate);
         return given()
                 .spec(requestSpecification())
                 .body(author)
@@ -63,7 +67,7 @@ public class PositiveRequestSpecification {
                 .extract().as(AuthorsSaveResponse.class);
     }
 
-    public static List<AuthorGetAllBooksResponse> authorGetAllBooksResponse(int authorId, Integer code) {
+    public static List<AuthorGetAllBooksResponse> authorGetAllBooksResponse(Integer authorId, Integer code) {
 
         return given()
                 .spec(requestSpecification())
@@ -103,31 +107,6 @@ public class PositiveRequestSpecification {
                 .assertThat()
                 .spec(statusCode(code))
                 .extract().as(BooksSaveResponse.class);
-
-    }
-    public static List<AuthorGetAllBooksResponse> authorGetAllBooksResponseBody(int authorId, Integer code) {
-
-        return given()
-                .spec(requestSpecification())
-                .when()
-                .get(Endpoint.authorGetAllBooks, authorId)
-                .then()
-                .assertThat().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("UsersTemplate.json"))
-                .spec(statusCode(code))
-                .extract().jsonPath().getList(".", AuthorGetAllBooksResponse.class);
-
-    }
-    public static BooksSaveResponse booksSaveResponseBODY(String bookTitle, Long authorId, Integer code) {
-        AuthorForBookSave author = new AuthorForBookSave(authorId);
-        BooksSaveRequest book = new BooksSaveRequest(bookTitle, author);
-        return
-                given()
-                        .spec(requestSpecification())
-                        .when()
-                        .contentType("application/json")
-                        .get("http://localhost:8080/bookEntities/"+authorId).then()
-                        .body("bookTitle",equalTo(book.getBookTitle()))
-                        .extract().as(BooksSaveResponse.class);
     }
 }
 

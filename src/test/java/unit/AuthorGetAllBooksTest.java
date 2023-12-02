@@ -1,3 +1,4 @@
+
 package unit;
 
 import academy.kata.models.ErrorResponse;
@@ -9,6 +10,8 @@ import academy.kata.rest.PositiveRequestSpecification;
 import academy.kata.steps.checkResponse.AuthorGetAllBooks;
 import academy.kata.steps.checkResponse.AuthorSave;
 import academy.kata.steps.checkResponse.BooksSave;
+import academy.kata.steps.checkResponse.ErrorResponseCheck;
+import academy.kata.utils.TestDataGenerator;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Story;
@@ -20,17 +23,19 @@ import java.util.List;
 @Epic("API тесты")
 @Story("Получение всех книг автора")
 public class AuthorGetAllBooksTest {
-    String firstName =TestDataGenerator.generateData();
+    String firstName = TestDataGenerator.generateData();
     String familyName=TestDataGenerator.generateData();
     String secondName=TestDataGenerator.generateData();
     String bookTitle= TestDataGenerator.generateData();
+    String date = TestDataGenerator.generateDate();
+    ErrorResponseCheck errorResponseCheck = new ErrorResponseCheck();
 
     @Test
     @DisplayName("Получение всех книг автора с проверкой тела ответа")
     @Description("Позитивный тест. В консоль должны вывестись все книги автора")
     public void getAllBooksTest() {
 
-        AuthorsSaveResponse author = PositiveRequestSpecification.authorsSaveResponse(firstName,familyName,secondName,201);
+        AuthorsSaveResponse author = PositiveRequestSpecification.authorsSaveResponse(firstName,familyName,secondName, date,201);
         AuthorSave.checkResponse(author);
 
         BooksSaveResponse booksSaveResponse = PositiveRequestSpecification.booksSaveResponse(bookTitle, author.getAuthorId(), 201);
@@ -46,6 +51,7 @@ public class AuthorGetAllBooksTest {
     public void getAllBooksInvalidId() {
 
         ErrorResponse errorResponse =ErrorRequestSpecification.authorGetAllBooksResponseErr(0,409);
-        ErrorRequestSpecification.errorRespons(errorResponse,"","1004","Указанный автор не существует в таблице");
+        errorResponseCheck.checkResponse(errorResponse,"1004",null,"Указанный автор не существует в таблице");
     }
 }
+

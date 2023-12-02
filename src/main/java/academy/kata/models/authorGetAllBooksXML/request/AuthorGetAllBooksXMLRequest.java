@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "author")
 public class AuthorGetAllBooksXMLRequest {
+
     @XmlElement(name = "author_id", required = true)
     private int id;
 }
