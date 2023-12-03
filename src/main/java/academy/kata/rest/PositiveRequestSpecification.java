@@ -10,6 +10,8 @@ import academy.kata.models.booksSave.request.BooksSaveRequest;
 import academy.kata.models.booksSave.response.BooksSaveResponse;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -17,7 +19,6 @@ import io.restassured.specification.ResponseSpecification;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
 
 
 public class PositiveRequestSpecification {
@@ -27,6 +28,8 @@ public class PositiveRequestSpecification {
         return new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
                 .setBaseUri("http://localhost:8080")
+                .addFilter(new RequestLoggingFilter())
+                .addFilter(new ResponseLoggingFilter())
                 .build().header("Authorization","Bearer " +setToken());
     }
 
@@ -35,6 +38,8 @@ public class PositiveRequestSpecification {
         return new RequestSpecBuilder()
                 .setContentType(ContentType.XML)
                 .setBaseUri("http://localhost:8080")
+                .addFilter(new RequestLoggingFilter())
+                .addFilter(new ResponseLoggingFilter())
                 .build().header("Authorization","Bearer " +setToken());
     }
 
