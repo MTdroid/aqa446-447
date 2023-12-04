@@ -8,10 +8,7 @@ import academy.kata.models.authorsSave.response.AuthorsSaveResponse;
 import academy.kata.models.booksSave.response.BooksSaveResponse;
 import academy.kata.rest.ErrorRequestSpecification;
 import academy.kata.rest.PositiveRequestSpecification;
-import academy.kata.steps.checkResponse.AuthorGetAllBooksXML;
-import academy.kata.steps.checkResponse.AuthorSave;
-import academy.kata.steps.checkResponse.BooksSave;
-import academy.kata.steps.checkResponse.ErrorResponseCheck;
+import academy.kata.steps.checkResponse.*;
 import academy.kata.utils.TestDataGenerator;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
@@ -45,6 +42,7 @@ public class AuthorGetAllBooksXMLTest {
         List<AuthorGetAllBooksXMLResponse> authorGetAllBooksXMLResponses = PositiveRequestSpecification.authorGetAllBooksXMLResponse(author.getAuthorId().intValue(), 200);
         Author author1 =authorGetAllBooksXMLResponses.get(0).getAuthor();
         AuthorGetAllBooksXML.checkResponseBody(authorGetAllBooksXMLResponses,author1);
+
     }
 
         @Test

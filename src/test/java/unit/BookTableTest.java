@@ -4,7 +4,7 @@ import academy.kata.entity.Book;
 import academy.kata.models.authorsSave.response.AuthorsSaveResponse;
 import academy.kata.repositoryClasses.BookRepository;
 import academy.kata.rest.PositiveRequestSpecification;
-import academy.kata.steps.checkResponse.HibernateCheckListSize;
+import academy.kata.steps.checkResponse.HibernateDbCheck;
 import academy.kata.utils.TestDataGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,17 +30,17 @@ public class BookTableTest {
         bookRepository.insertBook("Book2",author.getAuthorId());
 
         List<Book> books = bookRepository.findAll();
-        HibernateCheckListSize.CheckListSize(books,2);
+        HibernateDbCheck.checkListSize(books,2);
         System.out.println(books);
 
         List<Book> book = bookRepository.findBook("Book1");
-        HibernateCheckListSize.CheckListSize(book,1);
+        HibernateDbCheck.checkListSize(book,1);
         System.out.println(book);
 
         bookRepository.deleteOneBook("Book2");
 
         List<Book> booksAfterRemove = bookRepository.findAll();
-        HibernateCheckListSize.CheckListSize(booksAfterRemove,1);
+        HibernateDbCheck.checkListSize(booksAfterRemove,1);
         System.out.println(booksAfterRemove);
     }
 }

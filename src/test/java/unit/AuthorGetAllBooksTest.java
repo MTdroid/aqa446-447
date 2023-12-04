@@ -7,10 +7,7 @@ import academy.kata.models.authorsSave.response.AuthorsSaveResponse;
 import academy.kata.models.booksSave.response.BooksSaveResponse;
 import academy.kata.rest.ErrorRequestSpecification;
 import academy.kata.rest.PositiveRequestSpecification;
-import academy.kata.steps.checkResponse.AuthorGetAllBooks;
-import academy.kata.steps.checkResponse.AuthorSave;
-import academy.kata.steps.checkResponse.BooksSave;
-import academy.kata.steps.checkResponse.ErrorResponseCheck;
+import academy.kata.steps.checkResponse.*;
 import academy.kata.utils.TestDataGenerator;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
@@ -43,6 +40,8 @@ public class AuthorGetAllBooksTest {
 
         List<AuthorGetAllBooksResponse> authorGetAllBooksResponses = PositiveRequestSpecification.authorGetAllBooksResponse(author.getAuthorId().intValue(), 200);
         AuthorGetAllBooks.checkResponseBody(authorGetAllBooksResponses,bookTitle,firstName,familyName,secondName);
+
+        HibernateDbCheck.findBooksPositive();
     }
 
     @Test
