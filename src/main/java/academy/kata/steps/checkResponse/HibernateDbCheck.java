@@ -22,6 +22,16 @@ public class HibernateDbCheck {
         assertEquals(bookId, books.get(0).getId());
 
     }
+// Добавил сравнение ответа из бд и book
+    public static void bookCheckResponse(String bookTitle, Long authorId, Long bookId,Book book, String updated) {
+        bookRepository.insertBook(bookTitle,authorId);
+        List<Book> DBbook = bookRepository.findBook(bookTitle);
+        book.setBookTitle(bookTitle);
+        book.setAuthorId(authorId);
+        book.setId(bookId);
+        book.setUpdated(updated);
+        assertEquals(book, DBbook.get(0));
+    }
 
     public static void compareBookResponsePositive(BooksSaveResponse booksSaveResponse, String bookTitle) {
         List<Book> books = bookRepository.findBook(bookTitle);

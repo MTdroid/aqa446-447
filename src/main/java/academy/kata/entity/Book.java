@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.xml.bind.annotation.XmlElement;
-import java.sql.Timestamp;
+
 
 @Entity
 @Data
@@ -27,5 +27,5 @@ public class Book {
 
     @Column(name = "updated")
     @XmlElement(name = "updated", nillable = true)
-    private Timestamp updated;
+    private String updated;
 }

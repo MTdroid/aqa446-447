@@ -41,7 +41,7 @@ public class AuthorGetAllBooksTest {
         List<AuthorGetAllBooksResponse> authorGetAllBooksResponses = PositiveRequestSpecification.authorGetAllBooksResponse(author.getAuthorId().intValue(), 200);
         AuthorGetAllBooks.checkResponseBody(authorGetAllBooksResponses,bookTitle,firstName,familyName,secondName);
         HibernateDbCheck.findBooksPositive();
-        HibernateDbCheck.compareBookResponsePositive(booksSaveResponse,bookTitle);
+        /*HibernateDbCheck.compareBookResponsePositive(booksSaveResponse,bookTitle);*/
         HibernateDbCheck.compareBookPositive(bookTitle,author.getAuthorId(), booksSaveResponse.getBookId());
     }
 

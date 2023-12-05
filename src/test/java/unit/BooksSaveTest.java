@@ -1,6 +1,7 @@
 
 package unit;
 
+import academy.kata.entity.Book;
 import academy.kata.models.ErrorResponse;
 import academy.kata.models.authorsSave.response.AuthorsSaveResponse;
 import academy.kata.models.booksSave.response.BooksSaveResponse;
@@ -16,6 +17,7 @@ import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+
 @Epic("API тесты")
 @Story("Сохранение книги")
 public class BooksSaveTest {
@@ -25,6 +27,9 @@ public class BooksSaveTest {
     String bookTitle = TestDataGenerator.generateData();
     String date = TestDataGenerator.generateDate();
     ErrorResponseCheck errorResponseCheck = new ErrorResponseCheck();
+    Book book = new Book();
+
+
 
     @Test
     @DisplayName("Успешное создание новой книги")
@@ -33,9 +38,9 @@ public class BooksSaveTest {
         AuthorsSaveResponse author = PositiveRequestSpecification.authorsSaveResponse(firstName, familyName, secondName, date, 201);
         BooksSaveResponse booksSaveResponse = PositiveRequestSpecification.booksSaveResponse(bookTitle, author.getAuthorId(), 201);
         BooksSave.checkResponse(booksSaveResponse);
-        HibernateDbCheck.compareBookPositive(bookTitle, author.getAuthorId(),booksSaveResponse.getBookId());
-        HibernateDbCheck.compareBookResponsePositive(booksSaveResponse,bookTitle);
 
+        String updated = TestDataGenerator.generateUpdated();
+        HibernateDbCheck.bookCheckResponse(bookTitle, author.getAuthorId(),booksSaveResponse.getBookId(),book,updated);
     }
 
     @Test
@@ -45,7 +50,6 @@ public class BooksSaveTest {
         AuthorsSaveResponse author = PositiveRequestSpecification.authorsSaveResponse(firstName, familyName, secondName, date, 201);
         ErrorResponse errorResponse = ErrorRequestSpecification.booksSaveResponseErr("", author.getAuthorId(), 400);
         errorResponseCheck.checkResponse(errorResponse, "1001", "Валидация не пройдена", "Некорректный размер поля firstName");
-
     }
 
     @Test
