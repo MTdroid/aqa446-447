@@ -4,7 +4,6 @@ import academy.kata.entity.Book;
 import academy.kata.models.booksSave.response.BooksSaveResponse;
 import academy.kata.repositoryClasses.BookRepository;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HibernateDbCheck {
@@ -20,17 +19,22 @@ public class HibernateDbCheck {
         assertEquals(bookTitle, books.get(0).getBookTitle());
         assertEquals(authorId, books.get(0).getAuthorId());
         assertEquals(bookId, books.get(0).getId());
-
     }
+
 // Добавил сравнение ответа из бд и book
     public static void bookCheckResponse(String bookTitle, Long authorId, Long bookId,Book book, String updated) {
-        bookRepository.insertBook(bookTitle,authorId);
+
         List<Book> DBbook = bookRepository.findBook(bookTitle);
         book.setBookTitle(bookTitle);
         book.setAuthorId(authorId);
         book.setId(bookId);
         book.setUpdated(updated);
-        assertEquals(book, DBbook.get(0));
+        String bookWithoutMillis = book.toString().substring(0,book.toString().length() -4);
+        String dbBookWithoutMillis = DBbook.get(0).toString().substring(0,DBbook.get(0).toString().length() -4);
+
+        assertEquals(bookWithoutMillis, dbBookWithoutMillis);
+        System.out.println(dbBookWithoutMillis);
+        System.out.println(bookWithoutMillis);
     }
 
     public static void compareBookResponsePositive(BooksSaveResponse booksSaveResponse, String bookTitle) {
