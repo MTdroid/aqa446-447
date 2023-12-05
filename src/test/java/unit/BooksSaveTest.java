@@ -33,7 +33,9 @@ public class BooksSaveTest {
         AuthorsSaveResponse author = PositiveRequestSpecification.authorsSaveResponse(firstName, familyName, secondName, date, 201);
         BooksSaveResponse booksSaveResponse = PositiveRequestSpecification.booksSaveResponse(bookTitle, author.getAuthorId(), 201);
         BooksSave.checkResponse(booksSaveResponse);
-        HibernateDbCheck.findBookPositive(bookTitle, author.getAuthorId());
+        HibernateDbCheck.compareBookPositive(bookTitle, author.getAuthorId(),booksSaveResponse.getBookId());
+        HibernateDbCheck.compareBookResponsePositive(booksSaveResponse,bookTitle);
+
     }
 
     @Test
@@ -83,6 +85,7 @@ public class BooksSaveTest {
         AuthorsSaveResponse author = PositiveRequestSpecification.authorsSaveResponse(firstName, familyName, secondName, date, 201);
         BooksSaveResponse booksSaveResponse = PositiveRequestSpecification.booksSaveResponse(bookTitle, author.getAuthorId(), 201);
         BooksSave.booksSaveResponseBody(booksSaveResponse, booksSaveResponse.getBookId());
-        HibernateDbCheck.findBookPositive(bookTitle, author.getAuthorId());
+        HibernateDbCheck.compareBookPositive(bookTitle, author.getAuthorId(), booksSaveResponse.getBookId());
+        HibernateDbCheck.compareBookResponsePositive(booksSaveResponse,bookTitle);
     }
 }

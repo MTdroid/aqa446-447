@@ -3,6 +3,8 @@ package academy.kata.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -14,6 +16,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "author")
+@EqualsAndHashCode
 public class Author {
 
     @Id

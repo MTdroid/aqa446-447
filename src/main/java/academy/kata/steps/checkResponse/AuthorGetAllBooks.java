@@ -15,5 +15,6 @@ public class AuthorGetAllBooks {
         assertEquals(authorGetAllBooksResponses.get(0).getAuthor().getFirstName(), firstName);
         assertEquals(authorGetAllBooksResponses.get(0).getAuthor().getFamilyName(), familyName);
         assertEquals(authorGetAllBooksResponses.get(0).getAuthor().getSecondName(), secondName);
+
     }
 }
